@@ -8,6 +8,7 @@ from  .KandinskyUniverse import kandinskyShape, overlaps
 
 class Random (KandinskyTruthInterfce):
 
+
    def  humanDescription (self):
       return "random kandinsky figure"
 
