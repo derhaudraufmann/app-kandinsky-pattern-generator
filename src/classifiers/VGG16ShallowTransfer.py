@@ -17,16 +17,18 @@ print(tf.__version__)
 # config settings
 
 # The directories where the images are stored
-# data_dir = "data/kandinsky/oneTriangle/"
 data_dir = "../data/kandinsky/circles/2/"
-# Directory for the training-set after copying the files using copy_files().
 train_dir = os.path.join(data_dir, "train/")
 test_dir = os.path.join(data_dir, "test/")
 
+# settings for plot naming
+dataset_name = "2 Red Circles"
+
 # training settings
-epochs = 30
-steps_per_epoch = 145 # 2900 samples / 20 samples per batch
+epochs = 20
+steps_per_epoch = 20
 batch_size = 20
+
 
 # Helper-function for joining a directory and list of filenames
 def path_join(dirname, filenames):
@@ -182,7 +184,7 @@ def load_images(image_paths):
 #
 # This plots the classification accuracy and loss-values recorded during training with the Keras API.
 
-def plot_training_history(history):
+def plot_training_history(history, accuracy):
     # Get the classification accuracy and loss-value
     # for the training-set.
     acc = history.history['categorical_accuracy']
@@ -201,7 +203,8 @@ def plot_training_history(history):
     plt.plot(val_loss, 'o', color='r', label='Test Loss')
 
     # Plot title and legend.
-    plt.title('Training and Test Accuracy')
+    plt.title(dataset_name + ", " + str(generator_train.n) + " train, " + str(generator_test.n) + " test, " + str(
+        epochs) + "epochs, accuracy: " + str(accuracy))
     plt.legend()
 
     # Ensure the plot shows correctly.
@@ -254,8 +257,6 @@ datagen_train = ImageDataGenerator(
 # we want to know the exact classification accuracy on those specific images. So we just rescale the pixel-values so
 # they are between 0.0 and 1.0 because this is expected by the VGG16 model.
 datagen_test = ImageDataGenerator(rescale=1. / 255)
-
-
 
 generator_train = datagen_train.flow_from_directory(directory=train_dir,
                                                     target_size=input_shape,
@@ -353,22 +354,6 @@ def print_layer_trainable():
         print("{0}:\t{1}".format(layer.trainable, layer.name))
 
 
-
-# start training!
-# history = new_model.fit_generator(generator=generator_train,
-#                                   epochs=epochs,
-#                                   steps_per_epoch=steps_per_epoch,
-#                                   class_weight=class_weight,
-#                                   validation_data=generator_test,
-#                                   validation_steps=steps_test)
-#
-# plot_training_history(history)
-#
-# # evaluate
-# result = new_model.evaluate_generator(generator_test, steps=steps_test)
-# print("Test-set classification accuracy: {0:.2%}".format(result[1]))
-
-
 # enter fine-tuning: lets train not only the last layer
 conv_model.trainable = True
 
@@ -400,7 +385,7 @@ history = new_model.fit_generator(generator=generator_train,
                                   validation_data=generator_test,
                                   validation_steps=steps_test)
 
-plot_training_history(history)
 result = new_model.evaluate_generator(generator_test, steps=steps_test)
+plot_training_history(history, "{0:.2%}".format(result[1]))
 print("Test-set classification accuracy: {0:.2%}".format(result[1]))
 example_errors()

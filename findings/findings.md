@@ -16,9 +16,23 @@ Just writing some results down as i go, will collect everything in a more struct
 #### 400 Train, 100 Test, Block 4,5 + classifier trained, 30 epochs
  Test-set classification accuracy: 60.50%
  
- ### 2900 train, 100 test, block 4,5 + classifier, 20 epochs
+#### 2900 train, 100 test, block 4,5 + classifier, 20 epochs
  Test-set classification accuracy: 90.00%
  not overfiting yet, lets try with more epochs
  
- 
+#### 2900 train, 100 test, block 4,5 + classifier, 30 epochs
+ got up to 93% accuracy with this setup, still no overfitting in sight.  
  ![alt text](plots/3k_30ep_block4_5.png "3000 samples 30 epochs")
+
+#### 5900 train, 1000 test, block 4,5 + classifier, 40 epochs
+ got up to 93,37% accuracy
+ ![alt text](plots/5k_40ep_blcok4_5.png "5000 samples 40 epochs")
+
+
+### 3 circles
+### 10000 train, 1000 test, block 4,5 + classifier, 20 epochs
+figures with 3 circles. 20000 training samples(10000 for each class) and 2000 test samples(1000 each class)
+trained for 20 epochs, last 2 convolutional layers(VGG blocks 4&5) and classifier where retrained.
+ got up to 97,35% accuracy
+ ![alt text](plots/10k_3circles_20ep_blcok4_5.png "5000 samples 40 epochs")
+
