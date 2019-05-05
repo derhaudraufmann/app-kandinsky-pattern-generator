@@ -34,5 +34,5 @@ Just writing some results down as i go, will collect everything in a more struct
 figures with 3 circles. 20000 training samples(10000 for each class) and 2000 test samples(1000 each class)
 trained for 20 epochs, last 2 convolutional layers(VGG blocks 4&5) and classifier where retrained.
  got up to 97,35% accuracy
- ![alt text](plots/10k_3circles_20ep_blcok4_5.png "5000 samples 40 epochs")
+ ![alt text](plots/10k_3circles_20ep_block4_5.png "5000 samples 40 epochs")
 
