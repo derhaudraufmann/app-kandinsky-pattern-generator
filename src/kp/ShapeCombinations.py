@@ -57,7 +57,7 @@ class Circles(KandinskyTruthInterfce):
         i = 0
         randomKFgenerator = Random(self.u, expectedNrCircles, expectedNrCircles + 3)
         while i < numberFigures:
-            kf = randomKFgenerator.true_kf(1)[0]
+            kf = randomKFgenerator.true_kf(1)
             numberCircles = 0
             for s in kf:
                 if s.shape == "circle":
@@ -78,6 +78,84 @@ class Circles(KandinskyTruthInterfce):
                 if s.shape == "circle":
                     numberCircles = numberCircles + 1
             if numberCircles != expectedNrCircles:
+                kfs.append(kf)
+                i = i + 1
+        return kfs
+
+class CirclesOnly(KandinskyTruthInterfce):
+
+    def isfuzzy(self):
+        return false
+
+    def humanDescription(self):
+        return "contains a number of circles, no other forms)"
+
+    def true_kf(self, expectedNrCircles=1, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 1, expectedNrCircles + 3)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberCircles = 0
+            for s in kf:
+                if s.shape == "circle":
+                    numberCircles = numberCircles + 1
+            if numberCircles == expectedNrCircles:
+                kfs.append(kf)
+                i = i + 1
+        return kfs
+
+
+    def false_kf(self, expectedNrCircles=1, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, expectedNrCircles, expectedNrCircles + 3)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberCircles = 0
+            for s in kf:
+                if s.shape == "circle":
+                    numberCircles = numberCircles + 1
+            if numberCircles != expectedNrCircles:
+                kfs.append(kf)
+                i = i + 1
+        return kfs
+
+
+class CirclesOnlyRange(KandinskyTruthInterfce):
+
+    def isfuzzy(self):
+        return false
+
+    def humanDescription(self):
+        return "contains a number of circles, ranging from min to max"
+
+    def true_kf(self, minExpectedNrCircles=1, maxExpectedCircles=2, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, minExpectedNrCircles, maxExpectedCircles)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberCircles = 0
+            for s in kf:
+                if s.shape == "circle":
+                    numberCircles = numberCircles + 1
+            if numberCircles >= minExpectedNrCircles and numberCircles <= maxExpectedCircles:
+                kfs.append(kf)
+                i = i + 1
+        return kfs
+
+    def false_kf(self, minExpectedNrCircles=1, maxExpectedCircles=2, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 0, maxExpectedCircles + 2)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberCircles = 0
+            for s in kf:
+                if s.shape == "circle":
+                    numberCircles = numberCircles + 1
+            if numberCircles < minExpectedNrCircles or numberCircles > maxExpectedCircles:
                 kfs.append(kf)
                 i = i + 1
         return kfs

@@ -17,17 +17,21 @@ print(tf.__version__)
 # config settings
 
 # The directories where the images are stored
-data_dir = "../data/kandinsky/circles/2/"
+data_dir = "../data/kandinsky/CirclesRange/1-3/"
 train_dir = os.path.join(data_dir, "train/")
 test_dir = os.path.join(data_dir, "test/")
-
-# settings for plot naming
-dataset_name = "2 Red Circles"
 
 # training settings
 epochs = 20
 steps_per_epoch = 20
 batch_size = 20
+
+# settings for plot naming
+dataset_name = "3 Red Circles Only"
+
+
+def plotFileName():
+    return str(int(generator_train.n / 1000)) + "k_" + str(epochs) + "ep_block4_5"
 
 
 # Helper-function for joining a directory and list of filenames
@@ -86,8 +90,8 @@ def plot_images(images, cls_true, cls_pred=None, smooth=True):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
+    plt.savefig("../../findings/plots/wrongPredictions/" + plotFileName() + "_falsepred.png")
     plt.show()
-
 
 # Helper-function for printing confusion matrix
 # Import a function from sklearn to calculate the confusion-matrix.
@@ -208,6 +212,7 @@ def plot_training_history(history, accuracy):
     plt.legend()
 
     # Ensure the plot shows correctly.
+    plt.savefig("../../findings/plots/" + plotFileName() + "_history.png")
     plt.show()
 
 
