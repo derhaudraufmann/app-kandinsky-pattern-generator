@@ -17,17 +17,17 @@ print(tf.__version__)
 # config settings
 
 # The directories where the images are stored
-data_dir = "../data/kandinsky/CirclesRange/1-3/"
+data_dir = "../../data/kandinsky/MoreRedThanBlueSparse/42/"
 train_dir = os.path.join(data_dir, "train/")
 test_dir = os.path.join(data_dir, "test/")
 
 # training settings
 epochs = 20
-steps_per_epoch = 20
+steps_per_epoch = 100
 batch_size = 20
 
 # settings for plot naming
-dataset_name = "3 Red Circles Only"
+dataset_name = "MRtB, train/test overlap"
 
 
 def plotFileName():
@@ -229,7 +229,7 @@ def plot_training_history(history, accuracy):
 # download the full model, but if you have a slow internet connection, then you can modify the code below to use the
 # smaller pre-trained model without the classification layers.
 
-model = VGG16(include_top=True, weights='imagenet')
+model = VGG16(include_top=True, weights=None)
 
 # Input Pipeline
 #
@@ -275,7 +275,7 @@ generator_test = datagen_test.flow_from_directory(directory=test_dir,
                                                   shuffle=False)
 
 steps_test = generator_test.n / batch_size
-print("stets test:" + str(steps_test))
+print("steps test:" + str(steps_test))
 
 image_paths_train = path_join(train_dir, generator_train.filenames)
 image_paths_test = path_join(test_dir, generator_test.filenames)
@@ -296,6 +296,8 @@ from sklearn.utils.class_weight import compute_class_weight
 class_weight = compute_class_weight(class_weight='balanced',
                                     classes=np.unique(cls_train),
                                     y=cls_train)
+
+
 
 
 def predict(image_path):
@@ -349,7 +351,7 @@ new_model.add(Dropout(0.5))
 # Add the final layer for the actual classification.
 new_model.add(Dense(num_classes, activation='softmax'))
 
-optimizer = Adam(lr=1e-5)
+optimizer = Adam(lr=1e-3)
 loss = 'categorical_crossentropy'
 metrics = ['categorical_accuracy']
 
@@ -369,14 +371,14 @@ for layer in conv_model.layers:
     trainable = ('block5' in layer.name or 'block4' in layer.name)
 
     # Set the layer's bool.
-    layer.trainable = trainable
+    layer.trainable = 1
 
 # check if correct layers are trainable
 
 print_layer_trainable()
 
 # low training rate for those layers
-optimizer_fine = Adam(lr=1e-7)
+optimizer_fine = Adam(lr=1e-5)
 
 # recompile model to apply 'trainable' changes
 new_model.compile(optimizer=optimizer_fine, loss=loss, metrics=metrics)

@@ -159,3 +159,124 @@ class CirclesOnlyRange(KandinskyTruthInterfce):
                 kfs.append(kf)
                 i = i + 1
         return kfs
+
+class SetMoreRedThanBlue(KandinskyTruthInterfce):
+
+    def isfuzzy(self):
+        return false
+
+    def humanDescription(self):
+        return "contains more red circles than blue ones"
+
+    def true_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberRedCircles = 0
+            numberBlueCircles = 0
+            for s in kf:
+                if s.color == "red":
+                    numberRedCircles = numberRedCircles + 1
+                else:
+                    numberBlueCircles = numberBlueCircles + 1
+            if numberRedCircles > numberBlueCircles and numberBlueCircles > 0:
+                kfs.append(kf)
+                i = i + 1
+                if i % 100 == 0:
+                    print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+    def false_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberRedCircles = 0
+            numberBlueCircles = 0
+            for s in kf:
+                if s.color == "red":
+                    numberRedCircles = numberRedCircles + 1
+                else:
+                    numberBlueCircles = numberBlueCircles + 1
+            if numberRedCircles <= numberBlueCircles and numberRedCircles > 0:
+                kfs.append(kf)
+                i = i + 1
+                if i % 100 == 0:
+                    print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+
+class SetMoreRedThanBlueSparse(KandinskyTruthInterfce):
+
+    def isfuzzy(self):
+        return false
+
+    def humanDescription(self):
+        return "contains more red circles than blue ones, training != test"
+
+    def train_true_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberRedCircles = 0
+            numberBlueCircles = 0
+            for s in kf:
+                if s.color == "red":
+                    numberRedCircles = numberRedCircles + 1
+                else:
+                    numberBlueCircles = numberBlueCircles + 1
+            if numberRedCircles > numberBlueCircles and numberBlueCircles > 0 and not(numberRedCircles == 4 and numberBlueCircles == 2):
+                kfs.append(kf)
+                i = i + 1
+                if i % 100 == 0:
+                    print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+    def train_false_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberRedCircles = 0
+            numberBlueCircles = 0
+            for s in kf:
+                if s.color == "red":
+                    numberRedCircles = numberRedCircles + 1
+                else:
+                    numberBlueCircles = numberBlueCircles + 1
+            if numberRedCircles <= numberBlueCircles and numberBlueCircles > 0 and not(numberRedCircles == 2 and numberBlueCircles == 4):
+                kfs.append(kf)
+                i = i + 1
+                if i % 2 == 0:
+                    print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+    def test_true_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.moreThanCircleskf(4, 2)
+            kfs.append(kf)
+            i = i + 1
+            if i % 100 == 0:
+                print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+    def test_false_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.moreThanCircleskf(2, 4)
+            kfs.append(kf)
+            i = i + 1
+            if i % 2 == 0:
+                print(str(i) + '/' + str(numberFigures))
+        return kfs

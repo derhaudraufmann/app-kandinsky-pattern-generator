@@ -12,16 +12,16 @@ if (__name__ == '__main__'):
 
     print('Welcome to the Kandinsky Figure Generator')
 
-    if len(sys.argv) != 5:
-        print("usage: mf_kpgen.py <function> <numberCircles> <numberFiguresTrain> <numberFiguresTest>")
-        print("example: mf_kpgen.py circles 3 1000 300")
-        exit(1)
-    else:
-        amountCircles = int(sys.argv[2])
-        amountFiguresTrain = int(sys.argv[3])
-        amountFiguresTest = int(sys.argv[4])
+    # if len(sys.argv) != 5:
+    #     print("usage: mf_kpgen.py <function> <numberCircles> <numberFiguresTrain> <numberFiguresTest>")
+    #     print("example: mf_kpgen.py circles 3 1000 300")
+    #     exit(1)
+    # else:
+    #     amountCircles = int(sys.argv[2])
+    #     amountFiguresTrain = int(sys.argv[3])
+    #     amountFiguresTest = int(sys.argv[4])
 
-    u = KandinskyUniverse.RedUniverse()
+
 
 
 def twoSquaresOneRandom():
@@ -160,7 +160,113 @@ def redCirclesWithRandomOthers(numberCircles, numberFigures=50):
         image.save(filename + ".png")
         i = i + 1
 
+def moreRedThanBlue(numberFiguresTrain=1000, numberFiguresTest=300):
+    os.makedirs("../data/kandinsky/MoreRedThanBlue/train/true", exist_ok=True)
+    os.makedirs("../data/kandinsky/MoreRedThanBlue/train/false", exist_ok=True)
+    os.makedirs("../data/kandinsky/MoreRedThanBlue/test/true", exist_ok=True)
+    os.makedirs("../data/kandinsky/MoreRedThanBlue/test/false", exist_ok=True)
+
+    circles = ShapeCombinations.SetMoreRedThanBlue(u)
+    print("the pattern is: ", circles.humanDescription())
+
+    # training set
+    print('Generating training test, %d samples', numberFiguresTrain)
+
+    kfs = circles.true_kf(numberFiguresTrain)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlue/train/true/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
+
+    kfs = circles.false_kf(numberFiguresTrain)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlue/train/false/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
+    # test set
+
+    print('Generating test test, %d samples', numberFiguresTest)
+
+    kfs = circles.true_kf(numberFiguresTest)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlue/test/true/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
+    kfs = circles.false_kf(numberFiguresTest)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlue/test/false/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
+
+def moreRedThanBlueSparse(numberFiguresTrain=1000, numberFiguresTest=300):
+    os.makedirs("../data/kandinsky/MoreRedThanBlueSparse/train/true", exist_ok=True)
+    os.makedirs("../data/kandinsky/MoreRedThanBlueSparse/train/false", exist_ok=True)
+    os.makedirs("../data/kandinsky/MoreRedThanBlueSparse/test/true", exist_ok=True)
+    os.makedirs("../data/kandinsky/MoreRedThanBlueSparse/test/false", exist_ok=True)
+
+    circles = ShapeCombinations.SetMoreRedThanBlueSparse(u)
+    print("the pattern is: ", circles.humanDescription())
+
+    # training set
+    print('Generating training test, %d samples', numberFiguresTrain)
+
+    kfs = circles.train_true_kf(numberFiguresTrain)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlueSparse/train/true/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
+    kfs = circles.train_false_kf(numberFiguresTrain)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlueSparse/train/false/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
+    # test set
+
+    print('Generating test test, %d samples', numberFiguresTest)
+
+    kfs = circles.test_true_kf(numberFiguresTest)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlueSparse/test/true/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
+    kfs = circles.test_false_kf(numberFiguresTest)
+    i = 0
+    for kf in kfs:
+        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
+        filename = "../data/kandinsky/MoreRedThanBlueSparse/test/false/%06d" % i
+        image.save(filename + ".png")
+        i = i + 1
+
 
 # create 500 figures of true/false class each, for pattern: exactly 2 circles
 # redCirclesOnly(amountCircles, amountFiguresTrain)
-redCirclesRange(1, 3, amountFiguresTrain, amountFiguresTest)
+
+u = KandinskyUniverse.RedAndBlueCirclesUniverse()
+
+
+# redCirclesRange(1, 3, amountFiguresTrain, amountFiguresTest)
+
+# moreRedThanBlue(100, 30)
+
+moreRedThanBlueSparse(5000, 800)
