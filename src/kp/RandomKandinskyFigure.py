@@ -172,3 +172,53 @@ class Random(KandinskyTruthInterfce):
             kf = self._randomkf(self.min, self.max)
             kfs.append(kf)
         return kfs
+
+    def ArithCirclesRpBeY(self, red=None, blue=None):
+        kf = []
+        if red != None and blue != None:
+            number_red = red
+            number_blue = blue
+        else:
+            number_red = random.randint(1, 3)
+            number_blue = random.randint(1, 3)
+
+        number_yellow = number_red + number_blue
+
+        shape_counts = [number_red, number_blue, number_yellow]
+
+        n = number_red + number_blue + number_yellow
+
+        minsize = 0.1
+        if n == 3: minsize = 0.2
+        if n == 2: minsize = 0.3
+        if n == 1: minsize = 0.4
+
+        maxsize = 0.6
+        if n == 5: maxsize = 0.5
+        if n == 6: maxsize = 0.4
+        if n == 7: maxsize = 0.3
+        if n > 7: maxsize = 0.2
+
+
+        color_index = 0
+        for color in ['red', 'blue', 'yellow']:
+            i = 0
+            maxtry = 20
+            while i < shape_counts[color_index]:
+                t = 0
+                o = self._randomCircle(minsize, maxsize, color)
+                kftemp = kf[:]
+                kftemp.append(o)
+                while overlaps(kftemp) and (t < maxtry):
+                    o = self._randomCircle(minsize, maxsize, color)
+                    kftemp = kf[:]
+                    kftemp.append(o)
+                    t = t + 1
+                if (t < maxtry):
+                    kf = kftemp[:]
+                    i = i + 1
+                else:
+                    maxsize = maxsize * 0.95
+            color_index = color_index + 1
+
+        return kf

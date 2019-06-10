@@ -17,13 +17,13 @@ print(tf.__version__)
 # config settings
 
 # The directories where the images are stored
-data_dir = "../../data/kandinsky/MoreRedThanBlueSparse/42/"
+data_dir = "../../data/kandinsky/RedPlBlueIsYell/"
 train_dir = os.path.join(data_dir, "train/")
 test_dir = os.path.join(data_dir, "test/")
 
 # training settings
 epochs = 20
-steps_per_epoch = 100
+steps_per_epoch = 30
 batch_size = 20
 
 # settings for plot naming
@@ -128,6 +128,9 @@ def plot_example_errors(cls_pred):
 
     # Get the file-paths for images that were incorrectly classified.
     image_paths = np.array(image_paths_test)[incorrect]
+
+    print("incorrect image paths:")
+    print(image_paths)
 
     # Load the first 9 images.
     images = load_images(image_paths=image_paths[0:9])
@@ -351,7 +354,7 @@ new_model.add(Dropout(0.5))
 # Add the final layer for the actual classification.
 new_model.add(Dense(num_classes, activation='softmax'))
 
-optimizer = Adam(lr=1e-3)
+optimizer = Adam(lr=1e-5)
 loss = 'categorical_crossentropy'
 metrics = ['categorical_accuracy']
 

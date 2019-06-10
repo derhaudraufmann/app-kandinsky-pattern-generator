@@ -27,6 +27,10 @@ class RedAndBlueCirclesUniverse:
    kandinsky_colors = ['red', 'blue']
    kandinsky_shapes = ['circle']
 
+class AllColorCirclesUniverse:
+   kandinsky_colors = ['red', 'blue', 'yellow']
+   kandinsky_shapes = ['circle']
+
 class ExtendedUniverse:
    # still have to add drawing functions below 
    kandinsky_colors = ['red', 'yellow', 'blue', "green", "orange"]

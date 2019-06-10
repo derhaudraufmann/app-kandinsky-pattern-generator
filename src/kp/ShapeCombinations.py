@@ -280,3 +280,90 @@ class SetMoreRedThanBlueSparse(KandinskyTruthInterfce):
             if i % 2 == 0:
                 print(str(i) + '/' + str(numberFigures))
         return kfs
+
+
+class ArithRplusBisY(KandinskyTruthInterfce):
+
+    def isfuzzy(self):
+        return false
+
+    def humanDescription(self):
+        return "number plus number blue equals number yellow, training != test"
+
+    def train_true_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.ArithCirclesRpBeY()
+            numberRedCircles = 0
+            numberBlueCircles = 0
+            for s in kf:
+                if s.color == "red":
+                    numberRedCircles = numberRedCircles + 1
+                elif s.color == 'blue':
+                    numberBlueCircles = numberBlueCircles + 1
+            if not(numberRedCircles == 4 and numberBlueCircles == 2):
+                kfs.append(kf)
+                i = i + 1
+                if i % 100 == 0:
+                    print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+    def train_false_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberRedCircles = 0
+            numberBlueCircles = 0
+            numberYellowCircles = 0
+            for s in kf:
+                if s.color == "red":
+                    numberRedCircles = numberRedCircles + 1
+                elif s.color == 'blue':
+                    numberBlueCircles = numberBlueCircles + 1
+                else:
+                    numberYellowCircles = numberYellowCircles + 1
+            if not ((numberRedCircles + numberBlueCircles) == numberYellowCircles) and not(numberRedCircles == 3 and numberBlueCircles == 2):
+                kfs.append(kf)
+                i = i + 1
+                if i % 2 == 0:
+                    print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+    def test_true_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.ArithCirclesRpBeY(3, 2)
+            kfs.append(kf)
+            i = i + 1
+            if i % 100 == 0:
+                print(str(i) + '/' + str(numberFigures))
+        return kfs
+
+    def test_false_kf(self, numberFigures=50):
+        kfs = []
+        i = 0
+        randomKFgenerator = Random(self.u, 2, 10)
+        while i < numberFigures:
+            kf = randomKFgenerator.circleskf()
+            numberRedCircles = 0
+            numberBlueCircles = 0
+            numberYellowCircles = 0
+            for s in kf:
+                if s.color == "red":
+                    numberRedCircles = numberRedCircles + 1
+                elif s.color == 'blue':
+                    numberBlueCircles = numberBlueCircles + 1
+                else:
+                    numberYellowCircles = numberYellowCircles + 1
+            if not ((numberRedCircles + numberBlueCircles) == numberYellowCircles):
+                kfs.append(kf)
+                i = i + 1
+                if i % 2 == 0:
+                    print(str(i) + '/' + str(numberFigures))
+        return kfs
