@@ -17,12 +17,12 @@ print(tf.__version__)
 # config settings
 
 # The directories where the images are stored
-data_dir = "../../data/kandinsky/RedPlBlueIsYell/"
+data_dir = "../../data/kandinsky/RedPlBlueIsYell"
 train_dir = os.path.join(data_dir, "train/")
 test_dir = os.path.join(data_dir, "test/")
 
 # training settings
-epochs = 20
+epochs = 500
 steps_per_epoch = 30
 batch_size = 20
 

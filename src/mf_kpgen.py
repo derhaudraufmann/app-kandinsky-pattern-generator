@@ -319,4 +319,4 @@ u = KandinskyUniverse.AllColorCirclesUniverse()
 
 # moreRedThanBlueSparse(5000, 800)
 
-redPlusBlueEqualsYellow(4000, 800, 12000, 3200)
+redPlusBlueEqualsYellow(5000, 1000)

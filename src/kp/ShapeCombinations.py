@@ -44,6 +44,7 @@ class TwoSquaresOneRandom(KandinskyTruthInterfce):
                 i = i + 1
         return kfs
 
+
 class Circles(KandinskyTruthInterfce):
 
     def isfuzzy(self):
@@ -82,6 +83,7 @@ class Circles(KandinskyTruthInterfce):
                 i = i + 1
         return kfs
 
+
 class CirclesOnly(KandinskyTruthInterfce):
 
     def isfuzzy(self):
@@ -104,7 +106,6 @@ class CirclesOnly(KandinskyTruthInterfce):
                 kfs.append(kf)
                 i = i + 1
         return kfs
-
 
     def false_kf(self, expectedNrCircles=1, numberFigures=50):
         kfs = []
@@ -159,6 +160,7 @@ class CirclesOnlyRange(KandinskyTruthInterfce):
                 kfs.append(kf)
                 i = i + 1
         return kfs
+
 
 class SetMoreRedThanBlue(KandinskyTruthInterfce):
 
@@ -230,7 +232,8 @@ class SetMoreRedThanBlueSparse(KandinskyTruthInterfce):
                     numberRedCircles = numberRedCircles + 1
                 else:
                     numberBlueCircles = numberBlueCircles + 1
-            if numberRedCircles > numberBlueCircles and numberBlueCircles > 0 and not(numberRedCircles == 4 and numberBlueCircles == 2):
+            if numberRedCircles > numberBlueCircles and numberBlueCircles > 0 and not (
+                    numberRedCircles == 4 and numberBlueCircles == 2):
                 kfs.append(kf)
                 i = i + 1
                 if i % 100 == 0:
@@ -250,7 +253,8 @@ class SetMoreRedThanBlueSparse(KandinskyTruthInterfce):
                     numberRedCircles = numberRedCircles + 1
                 else:
                     numberBlueCircles = numberBlueCircles + 1
-            if numberRedCircles <= numberBlueCircles and numberBlueCircles > 0 and not(numberRedCircles == 2 and numberBlueCircles == 4):
+            if numberRedCircles <= numberBlueCircles and numberBlueCircles > 0 and not (
+                    numberRedCircles == 2 and numberBlueCircles == 4):
                 kfs.append(kf)
                 i = i + 1
                 if i % 2 == 0:
@@ -298,12 +302,18 @@ class ArithRplusBisY(KandinskyTruthInterfce):
             kf = randomKFgenerator.ArithCirclesRpBeY()
             numberRedCircles = 0
             numberBlueCircles = 0
+            numberYellowCircles = 0
             for s in kf:
                 if s.color == "red":
                     numberRedCircles = numberRedCircles + 1
                 elif s.color == 'blue':
                     numberBlueCircles = numberBlueCircles + 1
-            if not(numberRedCircles == 4 and numberBlueCircles == 2):
+                else:
+                    numberYellowCircles = numberYellowCircles + 1
+            if ((numberRedCircles + numberBlueCircles) == numberYellowCircles) \
+                    and not (numberRedCircles == 4 and numberBlueCircles == 2) \
+                    and not (numberRedCircles == 1 and numberBlueCircles == 3) \
+                    and not (numberRedCircles == 2 and numberBlueCircles == 5):
                 kfs.append(kf)
                 i = i + 1
                 if i % 100 == 0:
@@ -326,7 +336,9 @@ class ArithRplusBisY(KandinskyTruthInterfce):
                     numberBlueCircles = numberBlueCircles + 1
                 else:
                     numberYellowCircles = numberYellowCircles + 1
-            if not ((numberRedCircles + numberBlueCircles) == numberYellowCircles) and not(numberRedCircles == 3 and numberBlueCircles == 2):
+            if not ((numberRedCircles + numberBlueCircles) == numberYellowCircles) and not (
+                    numberRedCircles == 3 and numberBlueCircles == 2) and not (
+                    numberRedCircles == 1 and numberBlueCircles == 3):
                 kfs.append(kf)
                 i = i + 1
                 if i % 2 == 0:
@@ -338,7 +350,7 @@ class ArithRplusBisY(KandinskyTruthInterfce):
         i = 0
         randomKFgenerator = Random(self.u, 2, 10)
         while i < numberFigures:
-            kf = randomKFgenerator.ArithCirclesRpBeY(3, 2)
+            kf = randomKFgenerator.ArithCirclesRpBeY([[4, 2], [1, 3], [2, 5]])
             kfs.append(kf)
             i = i + 1
             if i % 100 == 0:
@@ -350,7 +362,7 @@ class ArithRplusBisY(KandinskyTruthInterfce):
         i = 0
         randomKFgenerator = Random(self.u, 2, 10)
         while i < numberFigures:
-            kf = randomKFgenerator.circleskf()
+            kf = randomKFgenerator.ArithCirclesRpBNoteY(3, 2)
             numberRedCircles = 0
             numberBlueCircles = 0
             numberYellowCircles = 0
@@ -361,7 +373,9 @@ class ArithRplusBisY(KandinskyTruthInterfce):
                     numberBlueCircles = numberBlueCircles + 1
                 else:
                     numberYellowCircles = numberYellowCircles + 1
-            if not ((numberRedCircles + numberBlueCircles) == numberYellowCircles):
+            if not ((numberRedCircles + numberBlueCircles) == numberYellowCircles)and (
+                    (numberRedCircles == 3 and numberBlueCircles == 2) or (
+                    numberRedCircles == 1 and numberBlueCircles == 3)):
                 kfs.append(kf)
                 i = i + 1
                 if i % 2 == 0:
