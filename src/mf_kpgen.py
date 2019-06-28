@@ -260,10 +260,10 @@ def moreRedThanBlueSparse(numberFiguresTrain=1000, numberFiguresTest=300):
         i = i + 1
 
 def redPlusBlueEqualsYellow(numberFiguresTrain=1000, numberFiguresTest=300, train_offset=0, test_offset=0):
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell/train/true", exist_ok=True)
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell/train/false", exist_ok=True)
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell/test/true", exist_ok=True)
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell/test/false", exist_ok=True)
+    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/train/true", exist_ok=True)
+    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/train/false", exist_ok=True)
+    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/test/true", exist_ok=True)
+    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/test/false", exist_ok=True)
 
     circles = ShapeCombinations.ArithRplusBisY(u)
     print("the pattern is: ", circles.humanDescription())
@@ -275,7 +275,7 @@ def redPlusBlueEqualsYellow(numberFiguresTrain=1000, numberFiguresTest=300, trai
     i = train_offset
     for kf in kfs:
         image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell/train/true/%06d" % i
+        filename = "../data/kandinsky/RedPlBlueIsYell_big/train/true/%06d" % i
         image.save(filename + ".png")
         i = i + 1
 
@@ -283,7 +283,7 @@ def redPlusBlueEqualsYellow(numberFiguresTrain=1000, numberFiguresTest=300, trai
     i = train_offset
     for kf in kfs:
         image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell/train/false/%06d" % i
+        filename = "../data/kandinsky/RedPlBlueIsYell_big/train/false/%06d" % i
         image.save(filename + ".png")
         i = i + 1
 
@@ -295,7 +295,7 @@ def redPlusBlueEqualsYellow(numberFiguresTrain=1000, numberFiguresTest=300, trai
     i = test_offset
     for kf in kfs:
         image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell/test/true/%06d" % i
+        filename = "../data/kandinsky/RedPlBlueIsYell_big/test/true/%06d" % i
         image.save(filename + ".png")
         i = i + 1
 
@@ -303,7 +303,7 @@ def redPlusBlueEqualsYellow(numberFiguresTrain=1000, numberFiguresTest=300, trai
     i = test_offset
     for kf in kfs:
         image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell/test/false/%06d" % i
+        filename = "../data/kandinsky/RedPlBlueIsYell_big/test/false/%06d" % i
         image.save(filename + ".png")
         i = i + 1
 
@@ -319,4 +319,4 @@ u = KandinskyUniverse.AllColorCirclesUniverse()
 
 # moreRedThanBlueSparse(5000, 800)
 
-redPlusBlueEqualsYellow(5000, 1000)
+redPlusBlueEqualsYellow(30000, 9000)

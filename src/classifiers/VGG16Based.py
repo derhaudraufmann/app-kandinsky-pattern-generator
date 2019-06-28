@@ -7,9 +7,9 @@ import os
 from tensorflow.python.keras.models import Model, Sequential
 from tensorflow.python.keras.layers import Dense, Flatten, Dropout
 from tensorflow.python.keras.applications import VGG16
-from tensorflow.python.keras.applications.vgg16 import preprocess_input, decode_predictions
+from tensorflow.python.keras.applications.vgg16 import decode_predictions
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras.optimizers import Adam, RMSprop
+from tensorflow.python.keras.optimizers import Adam
 
 print("Tensorflow version is:")
 print(tf.__version__)
@@ -17,7 +17,7 @@ print(tf.__version__)
 # config settings
 
 # The directories where the images are stored
-data_dir = "../../data/kandinsky/RedPlBlueIsYell"
+data_dir = "../../data/kandinsky/RedPlBlueIsYell_big"
 train_dir = os.path.join(data_dir, "train/")
 test_dir = os.path.join(data_dir, "test/")
 
@@ -29,9 +29,11 @@ batch_size = 20
 # settings for plot naming
 dataset_name = "MRtB, train/test overlap"
 
-
+# function for building filename of the training history plot
+# for 10000 training samples and 200 epoches this results in:
+# 10k_200.png
 def plotFileName():
-    return str(int(generator_train.n / 1000)) + "k_" + str(epochs) + "ep_block4_5"
+    return str(int(generator_train.n / 1000)) + "k_" + str(epochs)
 
 
 # Helper-function for joining a directory and list of filenames
@@ -96,7 +98,6 @@ def plot_images(images, cls_true, cls_pred=None, smooth=True):
 # Helper-function for printing confusion matrix
 # Import a function from sklearn to calculate the confusion-matrix.
 from sklearn.metrics import confusion_matrix
-
 
 def print_confusion_matrix(cls_pred):
     # cls_pred is an array of the predicted class-number for
@@ -221,17 +222,11 @@ def plot_training_history(history, accuracy):
 
 # Pre-Trained Model: VGG16
 #
-# The following creates an instance of the pre-trained VGG16 model using the Keras API. This automatically downloads the
-# required files if you don't have them already. Note how simple this is in Keras compared to Tutorial #08.
+# The following creates an instance of the pre-trained VGG16 model using the Keras API.
 #
 # The VGG16 model contains a convolutional part and a fully-connected (or dense) part which is used for classification.
-# If include_top=True then the whole VGG16 model is downloaded which is about 528 MB. If include_top=False then only the
-# convolutional part of the VGG16 model is downloaded which is just 57 MB.
-#
-# We will try and use the pre-trained model for predicting the class of some images in our new dataset, so we have to
-# download the full model, but if you have a slow internet connection, then you can modify the code below to use the
-# smaller pre-trained model without the classification layers.
 
+# no pretrained weights are used, since they did not seem to provide a significant advantage for out domain!
 model = VGG16(include_top=True, weights=None)
 
 # Input Pipeline
@@ -300,9 +295,6 @@ class_weight = compute_class_weight(class_weight='balanced',
                                     classes=np.unique(cls_train),
                                     y=cls_train)
 
-
-
-
 def predict(image_path):
     # Load and resize the image using PIL.
     img = PIL.Image.open(image_path)
@@ -358,36 +350,15 @@ optimizer = Adam(lr=1e-5)
 loss = 'categorical_crossentropy'
 metrics = ['categorical_accuracy']
 
-
-def print_layer_trainable():
-    for layer in conv_model.layers:
-        print("{0}:\t{1}".format(layer.trainable, layer.name))
-
-
-# enter fine-tuning: lets train not only the last layer
+# since we are not using any pretrained weights, we set all layers to 'trainable'
 conv_model.trainable = True
-
-# We want to train the last two convolutional layers whose names contain 'block5' or 'block4'.
-
 for layer in conv_model.layers:
-    # Boolean whether this layer is trainable.
-    trainable = ('block5' in layer.name or 'block4' in layer.name)
-
-    # Set the layer's bool.
     layer.trainable = 1
 
-# check if correct layers are trainable
+# compile model
+new_model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
-print_layer_trainable()
-
-# low training rate for those layers
-optimizer_fine = Adam(lr=1e-5)
-
-# recompile model to apply 'trainable' changes
-new_model.compile(optimizer=optimizer_fine, loss=loss, metrics=metrics)
-
-# retrain the model
-
+# train the model
 history = new_model.fit_generator(generator=generator_train,
                                   epochs=epochs,
                                   steps_per_epoch=steps_per_epoch,

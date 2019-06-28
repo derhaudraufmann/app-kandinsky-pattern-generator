@@ -313,7 +313,8 @@ class ArithRplusBisY(KandinskyTruthInterfce):
             if ((numberRedCircles + numberBlueCircles) == numberYellowCircles) \
                     and not (numberRedCircles == 4 and numberBlueCircles == 2) \
                     and not (numberRedCircles == 1 and numberBlueCircles == 3) \
-                    and not (numberRedCircles == 2 and numberBlueCircles == 5):
+                    and not (numberRedCircles == 2 and numberBlueCircles == 5)\
+                    and not (numberRedCircles == 4 and numberBlueCircles == 6):
                 kfs.append(kf)
                 i = i + 1
                 if i % 100 == 0:
@@ -350,7 +351,7 @@ class ArithRplusBisY(KandinskyTruthInterfce):
         i = 0
         randomKFgenerator = Random(self.u, 2, 10)
         while i < numberFigures:
-            kf = randomKFgenerator.ArithCirclesRpBeY([[4, 2], [1, 3], [2, 5]])
+            kf = randomKFgenerator.ArithCirclesRpBeY([[4, 2], [1, 3], [2, 5], [4, 6]])
             kfs.append(kf)
             i = i + 1
             if i % 100 == 0:
