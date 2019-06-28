@@ -292,7 +292,7 @@ class ArithRplusBisY(KandinskyTruthInterfce):
         return false
 
     def humanDescription(self):
-        return "number plus number blue equals number yellow, training != test"
+        return "number red plus number blue equals number yellow, training != test"
 
     def train_true_kf(self, numberFigures=50):
         kfs = []

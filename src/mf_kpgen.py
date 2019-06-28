@@ -259,53 +259,6 @@ def moreRedThanBlueSparse(numberFiguresTrain=1000, numberFiguresTest=300):
         image.save(filename + ".png")
         i = i + 1
 
-def redPlusBlueEqualsYellow(numberFiguresTrain=1000, numberFiguresTest=300, train_offset=0, test_offset=0):
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/train/true", exist_ok=True)
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/train/false", exist_ok=True)
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/test/true", exist_ok=True)
-    os.makedirs("../data/kandinsky/RedPlBlueIsYell_big/test/false", exist_ok=True)
-
-    circles = ShapeCombinations.ArithRplusBisY(u)
-    print("the pattern is: ", circles.humanDescription())
-
-    # training set
-    print('Generating training set, %d samples', numberFiguresTrain)
-
-    kfs = circles.train_true_kf(numberFiguresTrain)
-    i = train_offset
-    for kf in kfs:
-        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell_big/train/true/%06d" % i
-        image.save(filename + ".png")
-        i = i + 1
-
-    kfs = circles.train_false_kf(numberFiguresTrain)
-    i = train_offset
-    for kf in kfs:
-        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell_big/train/false/%06d" % i
-        image.save(filename + ".png")
-        i = i + 1
-
-    # test set
-
-    print('Generating test set, %d samples', numberFiguresTest)
-
-    kfs = circles.test_true_kf(numberFiguresTest)
-    i = test_offset
-    for kf in kfs:
-        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell_big/test/true/%06d" % i
-        image.save(filename + ".png")
-        i = i + 1
-
-    kfs = circles.test_false_kf(numberFiguresTest)
-    i = test_offset
-    for kf in kfs:
-        image = KandinskyUniverse.kandinskyFigureAsImage(kf)
-        filename = "../data/kandinsky/RedPlBlueIsYell_big/test/false/%06d" % i
-        image.save(filename + ".png")
-        i = i + 1
 
 # create 500 figures of true/false class each, for pattern: exactly 2 circles
 # redCirclesOnly(amountCircles, amountFiguresTrain)
@@ -318,5 +271,3 @@ u = KandinskyUniverse.AllColorCirclesUniverse()
 # moreRedThanBlue(100, 30)
 
 # moreRedThanBlueSparse(5000, 800)
-
-redPlusBlueEqualsYellow(30000, 9000)
